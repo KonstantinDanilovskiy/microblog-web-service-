@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Sweater registration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<h2>Add new user</h2>
+<form th:action="@{/registration}" method="post" th:object="${user}">
+    <div class="form-group row">
+        <label for="username" class="col-sm-2 col-form-label">User Name :</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" th:classappend="${usernameError} ? 'is-invalid'"
+                   id="username" th:value="${user} ? *{username}"/>
+            <th:block th:if="${usernameError}">
+                <div class="invalid-feedback" th:text="${usernameError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="password" class="col-sm-2 col-form-label">Password: </label>
+        <div class="col-sm-10">
+            <input type="password" name="password" class="form-control" th:classappend="${passwordError} ? 'is-invalid'"
+                   id="password"/>
+            <th:block th:if="${passwordError}">
+                <div class="invalid-feedback" th:text="${passwordError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm password: </label>
+        <div class="col-sm-10">
+            <input type="password" name="repeatPassword" class="form-control" th:classappend="${repeatPasswordError} ? 'is-invalid'"
+                   id="confirmPassword"/>
+            <th:block th:if="${repeatPasswordError}">
+                <div class="invalid-feedback" th:text="${repeatPasswordError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email: </label>
+        <div class="col-sm-10">
+            <input type="email" name="email" class="form-control" th:classappend="${emailError} ? 'is-invalid'" id="email"
+                   placeholder="some@some.com" th:value="${user} ? *{email}"/>
+            <th:block th:if="${emailError}">
+                <div class="invalid-feedback" th:text="${emailError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <div>
+        <div class="g-recaptcha" data-sitekey="6Lc7AuMUAAAAAPgi-ICIdF_Xuk66ldBmqsUnl_Qh"></div>
+        <th:block th:if="${captchaError}" >
+            <div class="alert alert-danger" role="alert" th:text="${captchaError}"></div>
+        </th:block>
+    </div>
+    <div><input type="submit" value="Sign In"/></div>
+</form>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+</body>
+</html>

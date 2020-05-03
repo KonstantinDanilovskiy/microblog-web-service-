@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Create new message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<div>
+    <!--/*@thymesVar id="formData" type="com.letscode.sweater.dto.MessagesDTO"*/-->
+    <form action="#" th:action="@{/save}" th:object="${formData}" method="post">
+        <div th:each="newMessage, itemStat : ${formData.messages}">
+                <lable>Text
+                    <input type="text" th:field="*{messages[__${itemStat.index}__].text}">
+                </lable>
+                <lable>Tag
+                    <input type="text" th:field="*{messages[__${itemStat.index}__].tag}">
+                </lable>
+                <input type="file" th:name="file">
+        </div>
+        <input type="submit" id="submitButton" name="save" value="Save">
+    </form>
+</div>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+</body>
+</html>

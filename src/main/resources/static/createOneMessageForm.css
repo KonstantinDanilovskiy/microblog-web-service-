@@ -1,0 +1,9 @@
+.fileInputWrapper {
+    cursor: pointer;
+}
+.fileLabelWrapper {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 80px !important;
+}

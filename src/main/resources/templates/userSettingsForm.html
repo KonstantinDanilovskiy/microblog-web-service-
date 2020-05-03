@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Sweater</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<h2>Change user account data</h2>
+<form class = "m-2" th:action="@{/user/edit/{userId}(userId=${user.getId()})}" method="post" th:object="${user}">
+    <div class="form-group row">
+        <label for="username" class="col-sm-2 col-form-label">User Name :</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" th:classappend="${usernameError} ? 'is-invalid'"
+                   id="username" th:value="${user} ? *{username}"/>
+            <th:block th:if="${usernameError}">
+                <div class="invalid-feedback" th:text="${usernameError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email: </label>
+        <div class="col-sm-10">
+            <input type="email" name="email" class="form-control" th:classappend="${emailError} ? 'is-invalid'" id="email"
+                   placeholder="some@some.com" th:value="${user} ? *{email}"/>
+            <th:block th:if="${emailError}">
+                <div class="invalid-feedback" th:text="${emailError}"></div>
+            </th:block>
+        </div>
+    </div>
+    <button class="btn btn-primary ml-3 mt-2" type="submit">Change user data</button>
+</form>
+<div class = "m-2" style="border-top: 1px solid black">
+    <button class="btn btn-secondary m-2" id="slideUserPasswordForm">Change password</button>
+    <svg enable-background="new 0 0 50 50" height="50px" id="arrow" version="1.1" viewBox="0 0 50 50" width="50px" xml:space="preserve"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="30" width="30"/>
+        <polygon points="47.25,15 45.164,12.914 25,33.078 4.836,12.914 2.75,15 25,37.25 "/></svg>
+    <form class = "m-2" style="display: none;" id ="slideForm" th:action="@{/user/edit/{userId}(userId=${user.getId()})}" method="post" th:object="${user}">
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label">Password: </label>
+            <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" th:classappend="${passwordError} ? 'is-invalid'"
+                       id="password"/>
+                <th:block th:if="${passwordError}">
+                    <div class="invalid-feedback" th:text="${passwordError}"></div>
+                </th:block>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm password: </label>
+            <div class="col-sm-10">
+                <input type="password" name="repeatPassword" class="form-control" th:classappend="${repeatPasswordError} ? 'is-invalid'"
+                       id="confirmPassword"/>
+                <th:block th:if="${repeatPasswordError}">
+                    <div class="invalid-feedback" th:text="${repeatPasswordError}"></div>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+<script>
+    $( document ).ready(function() {
+        $("#arrow").css({
+            "-webkit-transform" : "rotate(180deg)",
+            "transform" : "rotate(180deg)"});
+        $('#slideUserPasswordForm').on('click', function () {
+            var slideForm = $('#slideForm');
+            if (slideForm.css('display') === 'none') {
+                slideForm.slideDown();
+                $("#arrow").css({
+                    "-webkit-transform" : "rotate(360deg)",
+                    "transform" : "rotate(360deg)"});
+            } else {
+                slideForm.slideUp();
+                $("#arrow").css({
+                    "-webkit-transform" : "rotate(180deg)",
+                    "transform" : "rotate(180deg)"});
+            }
+        });
+    });
+</script>
+</body>
+</html>

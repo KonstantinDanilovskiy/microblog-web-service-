@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS usr ALTER email SET not null;

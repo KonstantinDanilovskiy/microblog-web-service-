@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+<div th:fragment="allUsers" class="container">
+    <!--/*@thymesVar id="users" type="java.util.List<User>"*/-->
+    <div class="list-group m-2">
+        <th:block th:each="user : ${users}">
+            <a th:href="@{/user/account/{userName}(userName=${user.getUsername()})}" class="list-group-item list-group-item-action mt-1"
+               th:classappend="${#authentication.getName().equals(user.getUsername())} ? 'disabled'" th:text="${user.getUsername()}"></a>
+            <th:block th:if="${not #authentication.getName().equals(user.getUsername())}">
+                <th:block th:if="${#sets.contains(userSubscriptions, user)}">
+                    <a class="btn btn-info" th:href="@{/user/unsubscribe/{userName}(userName=${user.getUsername()})}">Unsubscribe</a>
+                </th:block>
+                <th:block th:unless="${#sets.contains(userSubscriptions, user)}">
+                    <a class="btn btn-info" th:href="@{/user/subscribe/{userName}(userName=${user.getUsername()})}">Subscribe</a>
+                </th:block>
+            </th:block>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

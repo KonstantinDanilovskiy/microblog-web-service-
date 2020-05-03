@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+    <h1>Welcome!</h1>
+    <div th:replace="script_fragment :: bootstrap_script"></div>
+</body>
+</html>

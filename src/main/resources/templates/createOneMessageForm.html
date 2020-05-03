@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Create message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/static/createOneMessageForm.css">
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<div style="margin: 10px 5px">
+    <h2>Add new message</h2>
+</div>
+<div>
+    <!--/*@thymesVar id="newMessage" type="com.letscode.sweater.entity.Message"*/-->
+    <form action="#" th:action="@{/save-one}" th:object="${newMessage}" method="post" enctype="multipart/form-data">
+        <div class="form-group row ml-2">
+            <input type="hidden" th:field="*{id}">
+            <div class="col-sm-6">
+                <label for="textMessage" class="col-form-label">Text: </label>
+                <!--/*@thymesVar id="textError" type="java.lang.String"*/-->
+                <input class="form-control" th:classappend="${textError} ? 'is-invalid'" id="textMessage" type="text" th:field="*{text}">
+                <th:block th:if="${textError}">
+                    <div class="invalid-feedback" th:text="${textError}"></div>
+                </th:block>
+            </div>
+            <div class="col-sm-2">
+                <label for="tagMessage" class="col-form-label">Tag: </label>
+                <!--/*@thymesVar id="tagError" type="java.lang.String"*/-->
+                <input class="form-control" th:classappend="${tagError} ? 'is-invalid'" id="tagMessage" type="text" th:field="*{tag}">
+            </div>
+            <div class="custom-file col-sm-2 ml-2 mr-4 align-self-end">
+                <input type="file" th:name="file" class="custom-file-input fileInputWrapper" id="inputGroupFile" th:filed="*{filename}">
+                <label class="custom-file-label fileLabelWrapper" for="inputGroupFile" th:text="${newMessage.filename} ? *{filename} : 'Choose photo...'"></label>
+            </div>
+            <div class="col align-self-end">
+                <button class="btn btn-primary align-self-end" type="submit" id="submitButton">Post message</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+<script>
+    $('#inputGroupFile').on('change',function(){
+        //get the file name
+        var fileName = $(this).val().replace(/^.*\\/, "");
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+    })
+</script>
+</body>
+</html>

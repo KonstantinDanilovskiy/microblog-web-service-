@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main page</title>
+    <meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta th:name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<div style="margin: 10px 5px"><h2>List of messages</h2></div>
+<div class="form-row">
+    <div class="form-group row col-md-6">
+        <form class="form-inline" method="get" th:action="@{/find}">
+            <input type="text" name="tag" class="form-control ml-4" placeholder="Tag" />
+            <div class="form-check ml-2 mr-2">
+                <input class="form-check-input" id="findall_checkbox" type="checkbox" name="showAll" />
+                <lable class="form-check-label" for="findall_checkbox">Show all</lable>
+            </div>
+            <button class="btn btn-primary" type="submit">Find message</button>
+        </form>
+    </div>
+</div>
+<div th:if="${#lists.isEmpty(messages.getContent())}">
+    <p>No messages available</p>
+</div>
+<div th:replace="pagination :: pages"></div>
+<div th:replace="messages :: allMessages"></div>
+<div th:replace="pagination :: pages"></div>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+<script>
+    $('.delete_message').click(function() {
+       // e.preventDefault();
+        var del_id = $(this).attr('id');
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            headers:{"X-CSRF-TOKEN": token},
+            type:'DELETE',
+            url:'/message/edit/' + del_id,
+            success: function(data)
+            {
+                //confirmation of deletion
+                alert(data);
+                //reload page
+                location.reload();
+                // $('#message ' + del_id).css('display', 'none');
+                // $(this).closest('#message ' + del_id).hide();
+                // $.ajax({
+                //     url: "/main"
+                // });
+            },
+            error: function(data) {
+                alert('error');
+            }
+        });
+    })
+</script>
+</body>
+</html>

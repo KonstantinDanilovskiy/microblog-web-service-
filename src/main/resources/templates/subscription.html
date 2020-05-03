@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="script_fragment :: bootstrap_header(~{::meta},~{::title},~{::link})">
+    <title>Subscription page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<div th:replace="navbar :: navigation"></div>
+<h3 th:text="${user.getUsername()}"></h3>
+
+<div class = "container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Subscriptions</div>
+                    <div class="card-text">
+                        <a th:href="@{/user/subscription/{userName}(userName=${#authentication.getName()})}" th:text="${userSubscriptions.size()}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Subscribers</div>
+                    <div class="card-text">
+                        <a th:href="@{/user/subscriber/{userName}(userName=${#authentication.getName()})}" th:text="${userSubscribers.size()}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="users :: allUsers"></div>
+<div th:replace="script_fragment :: bootstrap_script"></div>
+</body>
+</html>
